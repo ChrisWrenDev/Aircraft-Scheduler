@@ -19,9 +19,10 @@ body {
 
 ::-webkit-scrollbar-track {
   border-radius: 10px;
+  background: #aeb1bb;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #5026e1;
+  background: #081d34;
   border-radius: 10px;
 }
