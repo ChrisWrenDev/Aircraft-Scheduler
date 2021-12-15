@@ -1,19 +1,19 @@
 import styled from "styled-components";
 
-const RotationCard = () => {
+const RotationCard = ({ details }) => {
   return (
     <Card>
-      <FlightName>AS1001</FlightName>
+      <FlightName>{details.id}</FlightName>
       <Departure>
-        <Time>15:30</Time>
-        <Location>LDN</Location>
+        <Time>{details.readable_departure}</Time>
+        <Location>{details.origin}</Location>
       </Departure>
       <TravelDirection>
         <HorizontalLine />
       </TravelDirection>
       <Arrival>
-        <Time>19:00</Time>
-        <Location>SGN</Location>
+        <Time>{details.readable_arrival}</Time>
+        <Location>{details.destination}</Location>
       </Arrival>
     </Card>
   );

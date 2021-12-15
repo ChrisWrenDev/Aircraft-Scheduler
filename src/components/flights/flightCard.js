@@ -1,17 +1,33 @@
 import styled from "styled-components";
+import { useState, useContext } from "react";
+import AircraftsContext from "../../store/aircraft-context";
 
-const FlightCard = () => {
+const FlightCard = ({ details }) => {
+  const [cardSelected, setCardSelected] = useState(false);
+
+  const { aircraftsDispatch } = useContext(AircraftsContext);
+
+  const cardStatusHandler = () => {
+    setCardSelected((prev) => !prev);
+
+    if (!cardSelected) {
+      aircraftsDispatch({ type: "ADD_ROTATION", flight: details });
+    } else {
+      aircraftsDispatch({ type: "REMOVE_ROTATION", id: details.id });
+    }
+  };
+
   return (
-    <Card>
-      <FlightName>AS1001</FlightName>
+    <Card onClick={cardStatusHandler} selected={cardSelected}>
+      <FlightName>{details.id}</FlightName>
       <Departure>
-        <Time>15:30</Time>
-        <Location>LDN</Location>
+        <Time>{details.readable_departure}</Time>
+        <Location>{details.origin}</Location>
       </Departure>
 
       <Arrival>
-        <Time>19:00</Time>
-        <Location>SGN</Location>
+        <Time>{details.readable_arrival}</Time>
+        <Location>{details.destination}</Location>
       </Arrival>
     </Card>
   );
@@ -20,9 +36,11 @@ const FlightCard = () => {
 const Card = styled.div`
   width: 300px;
   height: 150px;
+  border: solid 2px ${(props) => (props.selected ? "#5026e1" : "#fff")};
   border-radius: 4px;
   background-color: #fff;
-
+  box-shadow: ${(props) =>
+    props.selected ? "0 0 5px rgba(0, 0, 0, 0.1)" : "none"};
   display: grid;
   grid-template-rows: 1fr 3fr;
   grid-template-columns: repeat(2, 1fr);

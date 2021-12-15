@@ -18,7 +18,7 @@ const Aircrafts = () => {
     if (loadAircrafts) return;
 
     const transformData = (aircrafts) => {
-      aircraftsDispatch({ type: "ADD AIRCRAFTS", aircrafts: aircrafts.data });
+      aircraftsDispatch({ type: "ADD_AIRCRAFTS", aircrafts: aircrafts.data });
     };
 
     httpRequest(
