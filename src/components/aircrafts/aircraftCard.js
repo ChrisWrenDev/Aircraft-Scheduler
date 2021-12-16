@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
 import { useState, useContext } from "react";
 import AircraftsContext from "../../store/aircraft-context";
 
@@ -11,7 +11,10 @@ const AircraftCard = (props) => {
     setCardSelected((prev) => !prev);
 
     if (!cardSelected) {
-      aircraftsDispatch({ type: "SELECTED_AIRCRAFT", aircraft: props.details });
+      aircraftsDispatch({
+        type: "SELECTED_AIRCRAFT",
+        aircraft: props.details,
+      });
     } else {
       aircraftsDispatch({ type: "REMOVE_SELECTED" });
     }
@@ -25,6 +28,11 @@ const AircraftCard = (props) => {
   );
 };
 
+const FadeIn = keyframes`
+0%{opacity: 0},
+100%{opacity: 1}
+`;
+
 const Card = styled.div`
   width: 300px;
   height: 150px;
@@ -37,6 +45,7 @@ const Card = styled.div`
   align-items: center;
   margin-bottom: 15px;
   cursor: pointer;
+  animation: 0.1s ease-in ${FadeIn};
 `;
 
 const AircraftName = styled.h3`

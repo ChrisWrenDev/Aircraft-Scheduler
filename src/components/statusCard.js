@@ -12,11 +12,12 @@ const Card = styled.div`
   width: 100%;
   height: 150px;
   border-radius: 4px;
-  background-color: #cbcfd8;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  background-color: #dddbdd;
+  margin-bottom: 15px;
 `;
 
 const Message = styled.h3`

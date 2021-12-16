@@ -1,4 +1,31 @@
+import {
+  addFlightToRotations,
+  checkFlightConflicts,
+  flightRemovalAllowed,
+  removeFlightFromRotations,
+} from "./flightScheduleConflicts";
+
 export const aircraftReducer = (state, action) => {
+  if (action.type === "ADD_ROTATION") {
+    //1. Add to rotation if schedule is empty
+    if (state.rotations.length === 0) {
+      return addFlightToRotations(state, action.flight);
+    } else {
+      //2. Check for slot in schedule
+      return checkFlightConflicts(state, action.flight);
+    }
+  }
+
+  if (action.type === "REMOVE_ROTATION") {
+    if (state.rotations.length <= 2) {
+      return removeFlightFromRotations(state, action.flight);
+    } else if (flightRemovalAllowed(state, action.flight)) {
+      return removeFlightFromRotations(state, action.flight);
+    } else {
+      return state;
+    }
+  }
+
   if (action.type === "ADD_AIRCRAFTS") {
     let aircraftsUtilisation = action.aircrafts.map((aircraft) => {
       return {
@@ -16,14 +43,14 @@ export const aircraftReducer = (state, action) => {
   if (action.type === "SELECTED_AIRCRAFT") {
     return {
       ...state,
-      selected: [action.aircraft],
+      selectedAircraft: action.aircraft.ident,
     };
   }
 
   if (action.type === "REMOVE_SELECTED") {
     return {
       ...state,
-      selected: [],
+      selectedAircraft: "",
     };
   }
 
@@ -31,28 +58,6 @@ export const aircraftReducer = (state, action) => {
     return {
       ...state,
       flights: [...action.flights],
-    };
-  }
-
-  if (action.type === "ADD_ROTATION") {
-    const rotationsList = state.rotations.concat(action.flight);
-
-    rotationsList.sort((a, b) => a.departuretime - b.departuretime);
-    // const utilisation = rotationsList.reduce();
-
-    return {
-      ...state,
-      rotations: rotationsList,
-    };
-  }
-
-  if (action.type === "REMOVE_ROTATION") {
-    const rotationsList = state.rotations.filter(
-      (flight) => flight.id !== action.id
-    );
-    return {
-      ...state,
-      rotations: [...rotationsList],
     };
   }
 

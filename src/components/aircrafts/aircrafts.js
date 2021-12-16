@@ -3,7 +3,7 @@ import ColumnContainer from "../layout/columnContainer";
 import TitleArea from "../layout/titleArea";
 import ScrollItems from "../layout/scrollItems";
 import AircraftCard from "./aircraftCard";
-import StatusCard from "../statusCard";
+import LoadingCard from "../loadingCard";
 import useHttp from "../../hooks/use-http";
 import AircraftsContext from "../../store/aircraft-context";
 
@@ -32,11 +32,11 @@ const Aircrafts = () => {
   let aircraftList;
 
   if (error) {
-    aircraftList = <StatusCard>{error}</StatusCard>;
+    aircraftList = <LoadingCard>{error}</LoadingCard>;
   }
 
   if (loadingStatus) {
-    aircraftList = <StatusCard>Loading...</StatusCard>;
+    aircraftList = <LoadingCard>Loading...</LoadingCard>;
   }
 
   if (aircraftsState.aircrafts.length > 0) {

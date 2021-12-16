@@ -1,19 +1,19 @@
-import styled from "styled-components";
-import { useState, useContext } from "react";
+import styled, { keyframes } from "styled-components";
+import { useContext } from "react";
 import AircraftsContext from "../../store/aircraft-context";
 
 const FlightCard = ({ details }) => {
-  const [cardSelected, setCardSelected] = useState(false);
+  const { aircraftsState, aircraftsDispatch } = useContext(AircraftsContext);
 
-  const { aircraftsDispatch } = useContext(AircraftsContext);
+  const cardSelected = aircraftsState.rotations.some(
+    (flight) => flight.id === details.id
+  );
 
   const cardStatusHandler = () => {
-    setCardSelected((prev) => !prev);
-
     if (!cardSelected) {
       aircraftsDispatch({ type: "ADD_ROTATION", flight: details });
     } else {
-      aircraftsDispatch({ type: "REMOVE_ROTATION", id: details.id });
+      aircraftsDispatch({ type: "REMOVE_ROTATION", flight: details });
     }
   };
 
@@ -33,6 +33,11 @@ const FlightCard = ({ details }) => {
   );
 };
 
+const FadeIn = keyframes`
+0%{opacity: 0},
+100%{opacity: 1}
+`;
+
 const Card = styled.div`
   width: 300px;
   height: 150px;
@@ -46,6 +51,8 @@ const Card = styled.div`
   grid-template-columns: repeat(2, 1fr);
   padding: 15px;
   margin-bottom: 15px;
+  cursor: pointer;
+  animation: 0.1s ease-in ${FadeIn};
 
   &:last-child {
     margin-bottom: 0;

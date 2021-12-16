@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
 
 const RotationCard = ({ details }) => {
   return (
@@ -19,6 +19,11 @@ const RotationCard = ({ details }) => {
   );
 };
 
+const SlideIn = keyframes`
+0%{transform: translateX(100%)},
+100%{transform: translateX(0)}
+`;
+
 const Card = styled.div`
   width: 600px;
   height: 150px;
@@ -31,6 +36,7 @@ const Card = styled.div`
   grid-template-areas: "head head head" "departure icon arrival";
   padding: 15px;
   margin-bottom: 15px;
+  animation: 0.5s ease-in-out ${SlideIn};
 
   &:last-child {
     margin-bottom: 0;

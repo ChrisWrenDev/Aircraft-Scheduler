@@ -5,9 +5,10 @@ import AircraftsContext from "./aircraft-context";
 const AircraftsProvider = (props) => {
   const aircraftsInitialState = {
     aircrafts: [],
-    selected: [],
+    selectedAircraft: "",
     flights: [],
     rotations: [],
+    turnoverTime: 1200,
   };
 
   const [aircraftsState, aircraftsDispatch] = useReducer(

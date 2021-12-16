@@ -18,10 +18,12 @@ const Rotations = () => {
     ));
   }
 
+  let aircraftID = aircraftsState.selectedAircraft ?? "";
+
   return (
     <ColumnContainer bgColor="#edf0f8">
       <TitleArea>
-        <TitleArea>Rotations ABDC</TitleArea>
+        <TitleArea>{`Rotations ${aircraftID}`}</TitleArea>
       </TitleArea>
       <ScrollItems>{rotationList}</ScrollItems>
       <Timetable />
