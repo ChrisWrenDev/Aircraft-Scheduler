@@ -10,15 +10,23 @@ const FlightCard = ({ details }) => {
   );
 
   const cardStatusHandler = () => {
-    if (!cardSelected) {
-      aircraftsDispatch({ type: "ADD_ROTATION", flight: details });
+    if (aircraftsState.selectedAircraft === "") {
+      alert("Please select an aircraft to assign flights");
     } else {
-      aircraftsDispatch({ type: "REMOVE_ROTATION", flight: details });
+      if (!cardSelected) {
+        aircraftsDispatch({ type: "ADD_ROTATION", flight: details });
+      } else {
+        aircraftsDispatch({ type: "REMOVE_ROTATION", flight: details });
+      }
     }
   };
 
   return (
-    <Card onClick={cardStatusHandler} selected={cardSelected}>
+    <Card
+      onClick={cardStatusHandler}
+      selected={cardSelected}
+      eligibility={details.eligibility}
+    >
       <FlightName>{details.id}</FlightName>
       <Departure>
         <Time>{details.readable_departure}</Time>
@@ -43,7 +51,7 @@ const Card = styled.div`
   height: 150px;
   border: solid 2px ${(props) => (props.selected ? "#5026e1" : "#fff")};
   border-radius: 4px;
-  background-color: #fff;
+  background-color: ${(props) => (props.eligibility ? "#fff" : "#efefef")};
   box-shadow: ${(props) =>
     props.selected ? "0 0 5px rgba(0, 0, 0, 0.1)" : "none"};
   display: grid;

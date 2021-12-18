@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import TimeSlots from "./timeSlots";
 
 const Timetable = () => {
   return (
@@ -9,10 +10,7 @@ const Timetable = () => {
         <Time>24:00</Time>
       </TimeRange>
       <Chart>
-        <ChartBar type="arrival" width="10%" />
-        <ChartBar width="20%" />
-        <ChartBar type="arrival" width="30%" />
-        <ChartBar width="20%" />
+        <TimeSlots />
       </Chart>
     </Container>
   );
@@ -30,15 +28,8 @@ const Container = styled.div`
 const Chart = styled.div`
   width: 600px;
   height: 30px;
-  background-color: grey;
+  background-color: #dddbdd;
   display: flex;
-`;
-
-const ChartBar = styled.div`
-  height: 100%;
-  width: ${(props) => props.width};
-  background-color: ${(props) =>
-    props.type === "arrival" ? "#5026e1" : "#019c73"};
 `;
 
 const TimeRange = styled.div`

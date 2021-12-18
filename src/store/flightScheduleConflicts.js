@@ -1,37 +1,8 @@
-// const calculateAircraftUtilisation = (flights) => {
-//   let flightTime = flights.reduce(
-//     (acc, flight) => acc + (flight.arrivaltime - flight.departuretime),
-//     0
-//   );
-//   let aircraftUtilisation = (flightTime / 86400) * 100; //24 hours in minutes = 86400
+import { addFlightToRotations } from "./updateFlightRotations";
 
-//   return aircraftUtilisation.toFixed;
-// };
+export const checkStartEndRotations = (rotations, flight, turnoverTime) => {
+  if (rotations.length === 0) return false;
 
-export const addFlightToRotations = (state, flight) => {
-  //1. Add flight to existing rotations
-  const rotationsList = state.rotations.concat(flight);
-
-  //2. Sort list of rotations
-  rotationsList.sort((a, b) => a.departuretime - b.departuretime);
-
-  //3. Recalculate aircraft utilisation
-  // const utilisation = calculateAircraftUtilisation(rotationsList);
-
-  //4. Assign utilisation to selected aircraft
-  // const aircraftIndex = state.aircrafts.indexOf(aircraft => )
-  // const updatedAircrafts = state.aircrafts[0]
-
-  return {
-    ...state,
-    // aircrafts: updatedAircrafts,
-    rotations: rotationsList,
-  };
-};
-
-/////////////////////////////////////////////////
-
-const checkStartEndRotations = (rotations, flight, turnoverTime) => {
   const flightDepartureTime = +flight.departuretime;
   const flightArrivalTime = +flight.arrivaltime + turnoverTime;
   const flightDepartureLocation = flight.origin;
@@ -56,36 +27,36 @@ const checkStartEndRotations = (rotations, flight, turnoverTime) => {
   return departureConflict || arrivalConflict;
 };
 
-////////////////////////////////////////////////
+///////////////////////////////////////////////
 
-const checkForAvailableTimeSlot = (rotations, flight, turnoverTime) => {
-  const flightDepartureTime = +flight.departuretime;
-  const flightArrivalTime = +flight.arrivaltime + turnoverTime;
-  const flightDepartureLocation = flight.origin;
-  const flightArrivalLocation = flight.destination;
+// export const checkForAvailableTimeSlot = (rotations, flight, turnoverTime) => {
+//   const flightDepartureTime = +flight.departuretime;
+//   const flightArrivalTime = +flight.arrivaltime + turnoverTime;
+//   const flightDepartureLocation = flight.origin;
+//   const flightArrivalLocation = flight.destination;
 
-  for (let i = 0; i < rotations.length - 1; i++) {
-    let rotationDepartureTime = +rotations[1 + i].departuretime;
-    let rotationArrivalTime = +rotations[i].arrivaltime + turnoverTime;
+//   for (let i = 0; i < rotations.length - 1; i++) {
+//     let rotationDepartureTime = +rotations[1 + i].departuretime;
+//     let rotationArrivalTime = +rotations[i].arrivaltime + turnoverTime;
 
-    let rotationDepartureLocation = rotations[1 + i].origin;
-    let rotationArrivalLocation = rotations[i].destination;
+//     let rotationDepartureLocation = rotations[1 + i].origin;
+//     let rotationArrivalLocation = rotations[i].destination;
 
-    let timesAvailable =
-      flightDepartureTime > rotationArrivalTime &&
-      flightArrivalTime < rotationDepartureTime;
+//     let timesAvailable =
+//       flightDepartureTime > rotationArrivalTime &&
+//       flightArrivalTime < rotationDepartureTime;
 
-    let locationsMatch =
-      flightDepartureLocation === rotationArrivalLocation &&
-      flightArrivalLocation === rotationDepartureLocation;
+//     let locationsMatch =
+//       flightDepartureLocation === rotationArrivalLocation &&
+//       flightArrivalLocation === rotationDepartureLocation;
 
-    if (timesAvailable && locationsMatch) {
-      return true;
-    }
-  }
+//     if (timesAvailable && locationsMatch) {
+//       return true;
+//     }
+//   }
 
-  return false;
-};
+//   return false;
+// };
 
 ///////////////////////////////////////////////
 
@@ -98,18 +69,23 @@ export const checkFlightConflicts = (state, flight) => {
     return addFlightToRotations(state, flight);
   }
   //2. Check for available time slot inbetween rotations
-  else if (checkForAvailableTimeSlot(rotations, flight, turnoverTime)) {
-    return addFlightToRotations(state, flight);
-  } else {
-    //3. Return state
-    return state;
-  }
+  // if (checkForAvailableTimeSlot(rotations, flight, turnoverTime)) {
+  //   return addFlightToRotations(state, flight);
+  // }
+  //3. Return state
+  return state;
 };
 
-////////////////////////////////////////////////
+///////////////////////////////////////////////////
 
 export const flightRemovalAllowed = (state, flight) => {
-  const flightIndex = state.rotations.indexOf(flight);
+  let flightIndex;
+
+  for (let i = 0; i <= state.rotations.length - 1; i++) {
+    if (state.rotations[i].id === flight.id) {
+      flightIndex = i;
+    }
+  }
 
   if (flightIndex === 0 || flightIndex === state.rotations.length - 1) {
     return true;
@@ -126,17 +102,4 @@ export const flightRemovalAllowed = (state, flight) => {
   return flightTimeConflict && flightLocationConflict;
 };
 
-////////////////////////////////////////////
-
-export const removeFlightFromRotations = (state, flight) => {
-  const rotationsList = state.rotations.filter(
-    (rotation) => rotation.id !== flight.id
-  );
-
-  return {
-    ...state,
-    rotations: [...rotationsList],
-  };
-};
-
-/////////////////////////////////////////////
+///////////////////////////////////////////////////

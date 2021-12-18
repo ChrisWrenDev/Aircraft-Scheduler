@@ -1,9 +1,12 @@
 import {
-  addFlightToRotations,
   checkFlightConflicts,
   flightRemovalAllowed,
-  removeFlightFromRotations,
 } from "./flightScheduleConflicts";
+
+import {
+  removeFlightFromRotations,
+  addFlightToRotations,
+} from "./updateFlightRotations";
 
 export const aircraftReducer = (state, action) => {
   if (action.type === "ADD_ROTATION") {
@@ -19,11 +22,15 @@ export const aircraftReducer = (state, action) => {
   if (action.type === "REMOVE_ROTATION") {
     if (state.rotations.length <= 2) {
       return removeFlightFromRotations(state, action.flight);
-    } else if (flightRemovalAllowed(state, action.flight)) {
+    }
+    if (flightRemovalAllowed(state, action.flight)) {
       return removeFlightFromRotations(state, action.flight);
     } else {
-      return state;
+      alert(
+        "Aircraft is not allowed to teleport, please choose a different flight"
+      );
     }
+    return state;
   }
 
   if (action.type === "ADD_AIRCRAFTS") {
@@ -55,9 +62,16 @@ export const aircraftReducer = (state, action) => {
   }
 
   if (action.type === "ADD_FLIGHTS") {
+    const addFlightEligability = action.flights.map((flight) => {
+      return {
+        ...flight,
+        eligibility: true,
+      };
+    });
+
     return {
       ...state,
-      flights: [...action.flights],
+      flights: [...addFlightEligability],
     };
   }
 
