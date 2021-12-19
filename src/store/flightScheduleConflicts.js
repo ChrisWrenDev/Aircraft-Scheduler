@@ -73,6 +73,7 @@ export const checkFlightConflicts = (state, flight) => {
   //   return addFlightToRotations(state, flight);
   // }
   //3. Return state
+  alert("Non eligible flight selected. Please choose another flight.");
   return state;
 };
 

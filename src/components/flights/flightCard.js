@@ -49,7 +49,9 @@ const FadeIn = keyframes`
 const Card = styled.div`
   width: 300px;
   height: 150px;
-  border: solid 2px ${(props) => (props.selected ? "#5026e1" : "#fff")};
+  border: solid 2px
+    ${(props) =>
+      props.selected ? "#5026e1" : props.eligibility ? "#fff" : "#efefef"};
   border-radius: 4px;
   background-color: ${(props) => (props.eligibility ? "#fff" : "#efefef")};
   box-shadow: ${(props) =>

@@ -1,4 +1,5 @@
 import styled, { keyframes } from "styled-components";
+import { IoAirplaneSharp } from "react-icons/io5";
 
 const RotationCard = ({ details }) => {
   return (
@@ -10,6 +11,7 @@ const RotationCard = ({ details }) => {
       </Departure>
       <TravelDirection>
         <HorizontalLine />
+        <AirplaneIcon />
       </TravelDirection>
       <Arrival>
         <Time>{details.readable_arrival}</Time>
@@ -22,6 +24,11 @@ const RotationCard = ({ details }) => {
 const SlideIn = keyframes`
 0%{transform: translateX(100%)},
 100%{transform: translateX(0)}
+`;
+
+const FlyIn = keyframes`
+0%{transform: translateX(-200%); opacity: 0;},
+100%{transform: translateX(0); opacity: 1;}
 `;
 
 const Card = styled.div`
@@ -89,12 +96,19 @@ const TravelDirection = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  position: relative;
 `;
 
 const HorizontalLine = styled.hr`
   width: 100%;
   border-top: 1px solid #aeb1bb;
   border-radius: 5px;
+`;
+
+const AirplaneIcon = styled(IoAirplaneSharp)`
+  font-size: 2.5rem;
+  animation: 1s ease-in-out ${FlyIn};
+  position: absolute;
 `;
 
 export default RotationCard;
