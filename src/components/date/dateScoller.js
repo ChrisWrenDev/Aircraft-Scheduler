@@ -1,4 +1,4 @@
-import { useState } from "react";
+// import { useState } from "react";
 import styled from "styled-components";
 import { IoChevronForward, IoChevronBack } from "react-icons/io5";
 
@@ -31,41 +31,41 @@ const formatDate = (date) => {
     "November",
     "December",
   ];
-  let day = date.getDate();
-  let month = monthNames[date.getMonth()];
-  let year = date.getFullYear();
+  let day = date.getUTCDate();
+  let month = monthNames[date.getUTCMonth()];
+  let year = date.getUTCFullYear();
 
   return `${day}${nth(day)} ${month} ${year}`;
 };
 
 function incrementDate(date, increment) {
   let newDate = new Date(date);
-  newDate.setDate(date.getDate() + increment);
+  newDate.setDate(date.getUTCDate() + increment);
 
   return newDate;
 }
 
 const DateScroller = () => {
-  const [increment, setIncrement] = useState(0);
+  // const [increment, setIncrement] = useState(1);
 
   let todaysDate = new Date();
 
-  let displayDate = incrementDate(todaysDate, increment);
+  let displayDate = incrementDate(todaysDate, 1);
 
-  const increaseHandler = () => {
-    setIncrement((currentIncrement) => (currentIncrement += 1));
-  };
+  // const increaseHandler = () => {
+  //   setIncrement((currentIncrement) => (currentIncrement += 1));
+  // };
 
-  const decreaseHandler = () => {
-    setIncrement((currentIncrement) => (currentIncrement -= 1));
-  };
+  // const decreaseHandler = () => {
+  //   setIncrement((currentIncrement) => (currentIncrement -= 1));
+  // };
   return (
     <DateContainer>
-      <Button onClick={decreaseHandler}>
+      <Button>
         <Previous />
       </Button>
       <DateText>{formatDate(displayDate)}</DateText>
-      <Button onClick={increaseHandler}>
+      <Button>
         <Next />
       </Button>
     </DateContainer>
